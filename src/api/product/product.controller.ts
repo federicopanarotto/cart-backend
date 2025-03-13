@@ -12,9 +12,13 @@ export const list = async (
   const filtered: Product[] = await find(req.query);
 
   res.json(filtered);
-};
+}
 
-export const get = async (req: Request, res: Response, next: NextFunction) => {
+export const get = async (
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) => {
   const id = req.params["id"];
 
   const product: Product | null = await getById(id);
@@ -22,6 +26,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.status(404).send();
     return;
   }
-
   res.json(product);
-};
+}

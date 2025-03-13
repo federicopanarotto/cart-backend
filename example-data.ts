@@ -5,7 +5,7 @@ const OUTPUT_FILE = './products.json';
 
 function getRandomProducts() {
   return {
-    id: faker.database.mongodbObjectId(),
+    // id: faker.database.mongodbObjectId(),
     name: faker.commerce.product(),
     description: faker.commerce.productDescription(),
     netPrice: parseFloat(faker.commerce.price()),

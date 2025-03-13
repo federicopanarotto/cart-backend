@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { getById } from "../product/product.service";
-import { addToCart, getCart, populateCartItem } from "./cart-item.service";
+import { addToCart, getCart, update } from "./cart-item.service";
+import { TypedRequest } from "../../lib/typed-request.interface";
+import { AddCartItemDTO, UpdateCartQuantityDTO } from "./cart-item.dto";
 import { CartItem } from "./cart-item.entity";
-import { TypedRequest } from '../../lib/typed-request.interface';
-import { AddCartItemDTO } from "./cart-item.dto";
 
 export const add = async (
-  req: TypedRequest<AddCartItemDTO>, 
+  req: TypedRequest<AddCartItemDTO>,
   res: Response,
-  next: NextFunction) => {
+  next: NextFunction
+) => {
   const { productId, quantity } = req.body;
 
   const product = await getById(productId);
@@ -17,18 +18,31 @@ export const add = async (
     return;
   }
 
-  const toAdd: CartItem = {
-    product: productId,
-    quantity: quantity,
-  };
+  const added = await addToCart({ product: productId, quantity: quantity });
+  res.status(201).json(added);
+}
 
-  const added = await addToCart(toAdd);
-  const result = await populateCartItem(added);
-  res.status(201).json(result);
-};
+export const list = async (
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) => {
+  const cart: CartItem[] = await getCart();
+  res.json(cart);
+}
 
-export const list = async (req: Request, res: Response, next: NextFunction) => {
-  const cart = await getCart();
-  const results = await populateCartItem(cart);
-  res.json(results);
-};
+export const updateQuantity = async (
+  req: TypedRequest<UpdateCartQuantityDTO>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  const updated: CartItem | null = await update(id, { quantity });
+  if (!updated) {
+    res.status(404).send();
+    return;
+  }
+  res.json(updated);
+}

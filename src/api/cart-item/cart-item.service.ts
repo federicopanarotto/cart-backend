@@ -1,29 +1,25 @@
-import { getById } from "../product/product.service";
-import { CartItem, PopulatedCartItem } from "./cart-item.entity";
-
-export let cart: CartItem[] = [];
+import { CartItem } from "./cart-item.entity";
+import { CartItemModel } from "./cart-item.model";
 
 export async function addToCart(data: CartItem): Promise<CartItem> {
-  cart.push(data);
-  return data;
+  const existing = await CartItemModel.findOne({product: data.product});
+  if (!!existing) {
+    existing.quantity += data.quantity;
+    await existing.save()
+    return existing.populate('product')
+  }
+
+  const newItem = await CartItemModel.create(data);
+  await newItem.populate('product');
+
+  return newItem;
 }
 
 export async function getCart(): Promise<CartItem[]> {
-  return cart;
+  return CartItemModel.find().populate('product');
 }
 
-export async function populateCartItem(source: CartItem): Promise<PopulatedCartItem>; 
-export async function populateCartItem(source: CartItem[]): Promise<PopulatedCartItem[]>;
-export async function populateCartItem(source: CartItem | CartItem[]) {
-  if (Array.isArray(source)) {
-    const promises = source.map(item => populateCartItem(item));
-    return Promise.all(promises);
-  }
-
-  const productId = source.product;
-  const product = await getById(productId.toString());
-  return {
-    ...source,
-    product
-  };
+export async function update(id: string, data: Partial<CartItem>): Promise<CartItem | null> {
+  const updated = await CartItemModel.findByIdAndUpdate(id, data, {new: true}).populate('product');
+  return updated;
 }
