@@ -1,0 +1,82 @@
+[
+	{
+		"id": "ad58dec8aebfb41e14fbf6f7",
+		"name": "Gloves",
+		"description": "Bianco s.r.l.'s most advanced Ball technology increases spherical capabilities",
+		"netPrice": 142.65,
+		"weight": 1708,
+		"discount": 0.59
+	},
+	{
+		"id": "fb4f1f7e1dbbfb51baaa1280",
+		"name": "Hat",
+		"description": "Featuring Meitnerium-enhanced technology, our Gloves offers unparalleled cuddly performance",
+		"netPrice": 612.3,
+		"weight": 1969,
+		"discount": 0.89
+	},
+	{
+		"id": "fbfc9faaebb4fe21d4ca32cb",
+		"name": "Bacon",
+		"description": "The direzionale multi-canale Applicazione Chair offers reliable performance and profitable design",
+		"netPrice": 303.99,
+		"weight": 1996,
+		"discount": 0.31
+	},
+	{
+		"id": "edd8a7a1adac9f8f21bcd0a0",
+		"name": "Ball",
+		"description": "The sleek and private Hat comes with turquoise LED lighting for smart functionality",
+		"netPrice": 83.7,
+		"weight": 316,
+		"discount": 0.69
+	},
+	{
+		"id": "6ac9cddedcfa7dfbb5d9f965",
+		"name": "Shoes",
+		"description": "The sleek and pitiful Chips comes with sky blue LED lighting for smart functionality",
+		"netPrice": 733.75,
+		"weight": 1076,
+		"discount": 0.14
+	},
+	{
+		"id": "89662c0fd4abaaa96aafcccf",
+		"name": "Bike",
+		"description": "Incredible Car designed with Granite for linear performance",
+		"netPrice": 713.05,
+		"weight": 827,
+		"discount": 0.29
+	},
+	{
+		"id": "b5bd3d83be12dadfefdc89d6",
+		"name": "Chips",
+		"description": "Savor the rich essence in our Gloves, designed for other culinary adventures",
+		"netPrice": 873.4,
+		"weight": 1600,
+		"discount": 0.62
+	},
+	{
+		"id": "c895bf6983dee8dd8169eff5",
+		"name": "Car",
+		"description": "Innovative Shoes featuring old-fashioned technology and Silk construction",
+		"netPrice": 917.79,
+		"weight": 144,
+		"discount": 0.82
+	},
+	{
+		"id": "f886b5d13bddbe59a8b3b1a9",
+		"name": "Cheese",
+		"description": "Ergonomic Chair made with Gold for all-day velvety support",
+		"netPrice": 842.55,
+		"weight": 352,
+		"discount": 0.12
+	},
+	{
+		"id": "cd4aa08dccdc5eedee804ccb",
+		"name": "Car",
+		"description": "Innovative Chair featuring outlandish technology and Concrete construction",
+		"netPrice": 823.95,
+		"weight": 1206,
+		"discount": 0.07
+	}
+]
