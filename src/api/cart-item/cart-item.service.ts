@@ -23,3 +23,7 @@ export async function update(id: string, data: Partial<CartItem>): Promise<CartI
   const updated = await CartItemModel.findByIdAndUpdate(id, data, {new: true}).populate('product');
   return updated;
 }
+
+export async function removeById(id: string): Promise<CartItem | null> {
+  return CartItemModel.findByIdAndDelete(id).populate('product');
+}
