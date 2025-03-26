@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { createServer } from "http";
 import mongoose from "mongoose";
 import app from "./app";

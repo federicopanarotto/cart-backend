@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
 export class NotFoundError extends Error {
-  name = 'NotFoundError';
   constructor() {
     super('Entity Not Found');
+    this.name = 'NotFoundError';
   }
 }
 
@@ -15,7 +15,7 @@ export const notFoundHandler = (
 ) => {
   if (err instanceof NotFoundError) {
     res.status(404).send({
-      error: err.name, 
+      name: err.name,
       message: err.message
     });
   } else {

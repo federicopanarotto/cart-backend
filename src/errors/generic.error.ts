@@ -6,5 +6,8 @@ export const genericHandler = (
   res: Response, 
   next: NextFunction
 ) => {
-  res.status(500).json({error: err.message});
+  res.status(500).json({
+    name: err.name,
+    message: err.message
+  });
 };
