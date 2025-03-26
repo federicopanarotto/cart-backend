@@ -14,7 +14,7 @@ export class QueryProductsDTO {
     
     @IsNumber()
     @IsOptional()
-    @IsGreaterThanMin('')
+    @IsGreaterThanMin('minPrice')
     @Type(() => Number)
     maxPrice?: number;
 }
@@ -25,15 +25,21 @@ export function IsGreaterThanMin(property: string, validationOptions?: Validatio
             name: 'IsGreaterThanMin',
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [property],
             options: validationOptions,
             validator: {
                 validate(value: any, args: ValidationArguments) {
-                    console.log(args.object)
-                    const currentMinPrice = Object.values(args.object)[0];
-                    return value >= currentMinPrice;
+                    const [relatedPropertyName] = args.constraints;
+                    const relatedValue = (args.object as any)[relatedPropertyName];
+                    if (!relatedValue) {
+                        return true;
+                    }
+                    return value >= relatedValue;
                 },
                 defaultMessage(args: ValidationArguments) {
-                    return "MaxPrice value must be higher than minPrice value";
+                    const [relatedPropertyName] = args.constraints;
+                    const relatedValue = (args.object as any)[relatedPropertyName];
+                    return `MaxPrice value must be higher than minPrice value >= ${relatedValue}`;
                 }
             }
         })
