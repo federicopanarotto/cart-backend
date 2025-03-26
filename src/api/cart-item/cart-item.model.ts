@@ -11,7 +11,11 @@ cartItemSchema.set('toJSON', {
   transform: (_, ret) => {
     delete ret._id;
     delete ret.__v;
-    return ret;
+    return {
+      id: ret.id,
+      quantity: ret.quantity,
+      product: ret.product
+    };
   }
 });
 
