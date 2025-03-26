@@ -1,14 +1,12 @@
 import { Product } from "./product.entity";
-import { QueryProductsDTO } from "./product.dto";
+import { QueryProducts } from "./product.dto";
 import { ProductModel } from "./product.model";
-
-export type ProductQuery = QueryProductsDTO;
 
 export async function getById(id: string): Promise<Product | null> {
   return await ProductModel.findById(id);
 }
 
-export async function find(query: Partial<ProductQuery>): Promise<Product[]> {
+export async function find(query: Partial<QueryProducts>): Promise<Product[]> {
   const q: any = {};
 
   if (query.name) {

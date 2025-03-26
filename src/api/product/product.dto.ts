@@ -19,3 +19,5 @@ export class QueryProductsDTO {
   @Type(() => Number)
   maxPrice?: number;
 }
+
+export type QueryProducts = QueryProductsDTO;
