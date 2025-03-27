@@ -5,9 +5,6 @@ import { AddCartItemDTO, UpdateCartQuantityDTO } from "./cart-item.dto";
 import { getById } from "../product/product.service";
 import { addToCart, getCart, removeById, update } from "./cart-item.service";
 import { NotFoundError } from "../../errors/not-found.error";
-import { plainToClass } from "class-transformer";
-import { validate } from "class-validator";
-import { ValidationError } from '../../errors/validation.error';
 
 export const add = async (
   req: TypedRequest<AddCartItemDTO>,

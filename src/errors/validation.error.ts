@@ -1,4 +1,4 @@
-import { ValidationError as OriginalValidationError, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
+import { ValidationError as OriginalValidationError } from "class-validator";
 import { Request, Response, NextFunction } from "express";
 
 export class ValidationError extends Error {
