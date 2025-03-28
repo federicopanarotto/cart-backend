@@ -7,7 +7,8 @@
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "gendata": "ts-node ./example-data.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli": "ts-node ./cli/cli.ts"
   },
   "nodemonConfig": {
     "ignore": [
