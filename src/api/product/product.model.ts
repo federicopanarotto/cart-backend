@@ -12,14 +12,11 @@ const productSchema = new Schema<Product>({
 productSchema.set('toJSON', {
   virtuals: true,
   transform: (_, ret) => {
+    ret.id
     delete ret._id;
     return {
       id: ret.id,
-      name: ret.name,
-      description: ret.description,
-      netPrice: ret.netPrice,
-      discount: ret.discount,
-      weight: ret.weight,
+      ...ret
     };
   }
 });

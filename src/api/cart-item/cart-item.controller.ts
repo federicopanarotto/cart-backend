@@ -12,6 +12,7 @@ export const add = async (
   next: NextFunction
 ) => {
   try {
+    const id = req.user?.id!;
     const { productId, quantity } = req.body;
   
     const product = await getById(productId);
@@ -19,7 +20,7 @@ export const add = async (
       throw new NotFoundError();
     }
   
-    const added = await addToCart({ product: productId, quantity: quantity });
+    const added = await addToCart({ user: id, product: productId, quantity: quantity });
     res.status(201).json(added);
   } catch (err: any) {
     next(err);
@@ -32,7 +33,9 @@ export const list = async (
   next: NextFunction
 ) => {
   try {
-    const cart: CartItem[] = await getCart();
+    const id = req.user?.id!;
+
+    const cart: CartItem[] = await getCart(id);
     res.json(cart);
   } catch (err: any) {
     next(err);

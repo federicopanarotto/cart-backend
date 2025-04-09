@@ -2,8 +2,9 @@ import { Schema, model } from 'mongoose';
 import { CartItem } from './cart-item.entity';
 
 const cartItemSchema = new Schema<CartItem>({
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
   product: { type: Schema.Types.ObjectId, ref: 'Product' },
-  quantity: Number
+  quantity: Number,
 });
 
 cartItemSchema.set('toJSON', {
@@ -11,11 +12,8 @@ cartItemSchema.set('toJSON', {
   transform: (_, ret) => {
     delete ret._id;
     delete ret.__v;
-    return {
-      id: ret.id,
-      quantity: ret.quantity,
-      product: ret.product
-    };
+    delete ret.user;
+    return ret;
   }
 });
 
