@@ -2,7 +2,8 @@ import { Product } from "../product/product.entity";
 import { User } from "../user/user.entity";
 
 export type CartItem = {
-  user: string | User;
+  id?: string;
   product: string | Product;
   quantity: number;
+  user?: string | User;
 };

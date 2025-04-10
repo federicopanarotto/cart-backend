@@ -36,7 +36,6 @@ export const login = async(
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.body)
   passport.authenticate('local', {session: false}, 
     (err, user, info) => {
       if (err) {

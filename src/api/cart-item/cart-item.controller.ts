@@ -12,15 +12,19 @@ export const add = async (
   next: NextFunction
 ) => {
   try {
-    const id = req.user?.id!;
     const { productId, quantity } = req.body;
+    const userId = req.user?.id!;
   
     const product = await getById(productId);
     if (!product) {
       throw new NotFoundError();
     }
   
-    const added = await addToCart({ user: id, product: productId, quantity: quantity });
+    const added = await addToCart({
+      product: productId,
+      quantity: quantity,
+    }, userId);
+
     res.status(201).json(added);
   } catch (err: any) {
     next(err);
@@ -33,9 +37,9 @@ export const list = async (
   next: NextFunction
 ) => {
   try {
-    const id = req.user?.id!;
+    const userId = req.user?.id!;
 
-    const cart: CartItem[] = await getCart(id);
+    const cart: CartItem[] = await getCart(userId);
     res.json(cart);
   } catch (err: any) {
     next(err);
@@ -43,18 +47,24 @@ export const list = async (
 }
 
 export const updateQuantity = async (
-  req: TypedRequest<UpdateCartQuantityDTO>,
+  req: TypedRequest<UpdateCartQuantityDTO, unknown, {id: string}>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
+    const userId = req.user?.id!;
+    const cartItemId = req.params.id;
     const { quantity } = req.body;
-  
-    const updated: CartItem | null = await update(id, { quantity });
+
+    const updated: CartItem | null = await update(
+      cartItemId, { 
+      quantity: quantity,
+    }, userId);
+
     if (!updated) {
       throw new NotFoundError();
     }
+
     res.json(updated);
   } catch (err: any) {
     next(err);
@@ -67,9 +77,10 @@ export const remove = async(
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
+    const userId = req.user?.id!;
+    const { productId } = req.params;
   
-    const deleted: CartItem | null = await removeById(id);
+    const deleted: CartItem | null = await removeById(productId, userId);
     if (!deleted) {
       throw new NotFoundError();
     }
