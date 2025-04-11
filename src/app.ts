@@ -6,7 +6,6 @@ import router from "./api/routes";
 import { errorHandlers } from "./errors/errors.index";
 import './lib/auth/auth.handlers';
 
-
 const app = express();
 
 app.use(cors());
