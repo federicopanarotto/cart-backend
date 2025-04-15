@@ -7,10 +7,11 @@ const userIdentitySchema = new Schema<UserIdentity>({
   credentials: {
     type: {
       username: String,
-      hashedPassword: String
+      hashedPassword: String,
     }, 
     _id: false
-  }
+  },
+  refreshTokens: [String]
 });
 
 userIdentitySchema.pre('findOne', function(next) {

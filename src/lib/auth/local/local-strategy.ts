@@ -2,6 +2,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { UserIdentityModel } from "./user-identity.model";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from "../jwt/jwt-strategy";
 
 passport.use(
   new LocalStrategy(
@@ -22,7 +24,7 @@ passport.use(
       const match = await bcrypt.compare(password, identity.credentials.hashedPassword);
 
       if (match) {
-        done(null, identity.toObject().user)
+        done(null, identity.toObject().user);
         return;
       }
       done(null, false, { message: 'invalid password' });
