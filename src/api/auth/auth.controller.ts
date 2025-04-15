@@ -7,10 +7,7 @@ import { omit, pick } from "lodash";
 import passport, { use } from "passport";
 import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { JWT_SECRET } from "../../lib/auth/jwt/jwt-strategy";
-import { UserIdentityModel } from "../../lib/auth/local/user-identity.model";
-import { UserModel } from "../user/user.model";
-import { NotFoundError } from "../../errors/not-found.error";
-import { generateTokens, resetRefreshToken } from "../../lib/auth/local/user-identity.service";
+import { generateTokens, removeExpiredRefreshTokens, resetRefreshToken } from "../../lib/auth/local/user-identity.service";
 
 export const add = async (
   req: TypedRequest<AddUserDTO>,
@@ -42,7 +39,7 @@ export const login = async(
 ) => {
   try {
     passport.authenticate('local', {session: false}, 
-      async (err, user, info) => {
+      async (err: any, user: User, info: any) => {
         if (err) {
           next(err);
           return;
@@ -58,6 +55,8 @@ export const login = async(
         }
   
         const tokens = await generateTokens(user);
+
+        await removeExpiredRefreshTokens(user);
   
         res.status(200).json({
           user,
