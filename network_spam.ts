@@ -1,6 +1,7 @@
 import net from 'net';
 import os from 'os';
 import http from 'http';
+import readline from 'readline';
 
 const PORT = 3000;
 const TIMEOUT = 200;
@@ -104,10 +105,22 @@ async function main(): Promise<void> {
       throw(`On this network there are not active hosts serving on port ${PORT}`)
     }
 
-    console.log(`Found these active hosts serving on port ${PORT}:`);
-    activeHosts.forEach(ip => console.log(`- ${ip}:${PORT}`));
+    console.log(`Found these active hosts:`);
+    activeHosts.forEach(ip => console.log(`-> ${ip}:${PORT}`));
 
-    console.log('Start spamming to found hosts...');
+    await new Promise((resolve) => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+  
+      rl.question('Press enter to start spamming\n', () => {
+        rl.close();
+        resolve('');
+      });
+    });
+
+    console.log('Executing...');
     
     const spamTimeout = setTimeout(() => {
       spam = false;
