@@ -7,7 +7,7 @@ import { omit, pick } from "lodash";
 import passport, { use } from "passport";
 import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { JWT_SECRET } from "../../lib/auth/jwt/jwt-strategy";
-import { generateTokens, removeExpiredRefreshTokens, resetRefreshToken } from "../../lib/auth/local/user-identity.service";
+import { generateTokens, removeExpiredRefreshTokens, resetRefreshToken, verifyMatch } from "../../lib/auth/token.service";
 
 export const add = async (
   req: TypedRequest<AddUserDTO>,
@@ -55,7 +55,6 @@ export const login = async(
         }
   
         const tokens = await generateTokens(user);
-
         await removeExpiredRefreshTokens(user);
   
         res.status(200).json({
@@ -82,8 +81,8 @@ export const refreshToken = async(
 
     try {
       payload = jwt.decode(refreshToken) as JwtPayload;
-    } catch (err) {
-      next(err);
+    } catch (decodeErr) {
+      next(decodeErr);
       return;
     }
 
@@ -91,11 +90,19 @@ export const refreshToken = async(
     
     try {
       payload = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
-    } catch (err) {
-      if (err instanceof TokenExpiredError) {
-        await resetRefreshToken(user, refreshToken);
-      }
-      next(err);
+    } catch (verifyErr) {
+      await resetRefreshToken(user, refreshToken);
+      next(verifyErr);
+      return;
+    }
+
+    const match = await verifyMatch(user.id!, refreshToken);
+    if (!match) {
+      // await resetRefreshToken(user, refreshToken);
+      res.status(401).json({
+        error: 'RefreshTokenError',
+        message: 'Refres token not valid'
+      });
       return;
     }
 

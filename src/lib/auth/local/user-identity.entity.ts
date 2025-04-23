@@ -8,5 +8,5 @@ export type UserIdentity = {
     hashedPassword: string;
   };
   user: User;
-  refreshTokens: string[];
+  refreshTokens?: string[];
 }
